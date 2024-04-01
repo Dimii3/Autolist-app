@@ -27,25 +27,58 @@
         <form class="form">
           <div class="form-wrapper">
             <label for="" class="form__label">Brand</label>
-            <input type="text" class="form__input" />
+            <input type="text" class="form__input input-brand" />
           </div>
           <div class="form-wrapper">
             <label for="" class="form__label">Model</label>
-            <input type="text" class="form__input" />
+            <input type="text" class="form__input input-model" />
           </div>
           <div class="form-wrapper">
             <label for="" class="form__label">Year</label>
-            <input type="number" class="form__input" />
+            <input type="number" class="form__input input-year" />
           </div>
           <div class="form-wrapper">
             <label for="" class="form__label">Type</label>
-            <input type="text" class="form__input" />
+            <input type="text" class="form__input input-type" />
           </div>
-          <button class="form__submit btn">Search</button>
-          <button class="form__reset btn">Reset</button>
+          <div class="form__buttons">
+            <button class="form__submit btn">Search</button>
+            <button class="form__reset btn">Reset</button>
+          </div>
         </form>
       </aside>
       <section class="results">
+        <div class="error">
+          <h2>No cars found, please try again 😔</h2>
+        </div>
+        <div class="card-result">
+          <div class="card-result-left">
+            <img
+              src="/img/sedan.png"
+              alt="sedan"
+              class="card-result-left__img"
+            />
+          </div>
+          <div class="card-result-right">
+            <h3 class="card-result-right__brand"
+              ><span>Brand:</span> Mercedes</h3
+            >
+            <ul class="car-info-list">
+              <li class="car-info-list__item card-result-right__type"
+                ><span>Type:</span> Coupe</li
+              >
+              <li class="car-info-list__item card-result-right__model"
+                ><span>Model:</span> CLA</li
+              >
+              <li class="car-info-list__item card-result-right__year"
+                ><span>Year:</span> 2014</li
+              >
+              <li class="car-info-list__item card-result-right__year"
+                ><span>Price:</span> ~ 40,000$</li
+              >
+            </ul>
+          </div>
+        </div>
         <div class="card-result">
           <div class="card-result-left">
             <img
