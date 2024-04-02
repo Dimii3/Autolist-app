@@ -15,86 +15,30 @@ const inputType = document.querySelector(".input-type");
 const searchBtn = document.querySelector(".form__submit");
 const formReset = document.querySelector(".form__reset");
 
-const errorMessage = document.querySelector(".error");
-
 formReset.addEventListener("click", (e) => {
   e.preventDefault();
   inputBrand.value = "";
   inputModel.value = "";
   inputYear.value = "";
   inputType.value = "";
+  clearResults();
 });
 
 searchBtn.addEventListener("click", (e) => {
   e.preventDefault();
-
-  resultsContainer.innerHTML = "";
-  const searchParams = {
-    year: inputYear.value,
-    make: inputBrand.value,
-    model: inputModel.value,
-    type: inputType.value,
-  };
-
-  console.log(searchParams);
-  loadingSkeletons();
-  fetch(
-    `${API_URL}limit=10&page=0&year=${searchParams.year}&make=${searchParams.make}&model=${searchParams.model}&type=${searchParams.type}`,
-    options
-  )
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Something went wrong");
-      }
-      return res.json();
-    })
-    .then((data) => {
-      if (data.length === 0) {
-        console.log("No cars has been found");
-        resultsContainer.innerHTML = "";
-        errorMessage.classList.add("show");
-      } else {
-        resultsContainer.innerHTML = "";
-        console.log(data);
-        data.forEach((car) => createCardResult(car));
-      }
-    })
-    .catch((err) => console.log(err));
+  let suspectInput = 0;
+  [inputBrand, inputModel, inputType, inputYear].forEach((input) => {
+    if (input.value.includes("<script>")) {
+      input.classList.add("error");
+      handleError("Forbidden syntax input");
+      suspectInput++;
+    } else {
+      input.classList.remove("error");
+    }
+  });
+  if (suspectInput !== 0) return;
+  findResult();
 });
-
-const createCardResult = (carObject) => {
-  // resultsContainer.innerHTML = "";
-  const { make, model, type, year } = carObject;
-  carCardHTML = `<div class="card-result">
- <div class="card-result-left">
-   <img
-     src="/img/${selectTypeOfCar(type)}.png"
-     alt="sedan"
-     class="card-result-left__img"
-   />
- </div>
- <div class="card-result-right">
-   <h3 class="card-result-right__brand"
-     ><span>Brand:</span> ${make}</h3
-   >
-   <ul class="car-info-list">
-     <li class="car-info-list__item card-result-right__type"
-       ><span>Type:</span> ${type}</li
-     >
-     <li class="car-info-list__item card-result-right__model"
-       ><span>Model:</span> ${model}</li
-     >
-     <li class="car-info-list__item card-result-right__year"
-       ><span>Year:</span> ${year}</li
-     >
-     <li class="car-info-list__item card-result-right__year"
-       ><span>Price:</span> ~ ${generateRandomPrice()},000$</li
-     >
-   </ul>
- </div>
-</div>`;
-  resultsContainer.insertAdjacentHTML("beforeend", carCardHTML);
-};
 
 const selectTypeOfCar = (carType) => {
   const typeOfCar = carType.split(",")[0];
@@ -131,4 +75,82 @@ const loadingSkeletons = () => {
   for (let i = 0; i <= 6; i++) {
     resultsContainer.insertAdjacentHTML("beforeend", skeletonCarCardHTML);
   }
+};
+
+const clearResults = () => {
+  resultsContainer.innerHTML = "";
+};
+
+const handleError = (msg) => {
+  resultsContainer.innerHTML = `<div class="error">
+  <h2>${msg}</h2>
+</div>`;
+};
+
+const findResult = () => {
+  clearResults();
+  const searchParams = {
+    year: inputYear.value.trim(),
+    make: inputBrand.value.trim(),
+    model: inputModel.value.trim(),
+    type: inputType.value.trim(),
+  };
+
+  loadingSkeletons();
+  fetch(
+    `${API_URL}limit=10&page=0&year=${searchParams.year}&make=${searchParams.make}&model=${searchParams.model}&type=${searchParams.type}`,
+    options
+  )
+    .then((res) => {
+      if (!res.ok) {
+        handleError("Ups.. something went wrong, try again ⛔");
+        throw new Error("Something went wrong");
+      }
+      return res.json();
+    })
+    .then((data) => {
+      if (data.length === 0) {
+        clearResults();
+        handleError("No cars found, try again ⛔");
+      } else {
+        clearResults();
+        data.forEach((car) => createCardResult(car));
+      }
+    })
+    .catch((err) =>
+      handleError(err, "Ups.. something went wrong, try again ⛔")
+    );
+};
+
+const createCardResult = (carObject) => {
+  const { make, model, type, year } = carObject;
+  carCardHTML = `<div class="card-result">
+ <div class="card-result-left">
+   <img
+     src="/img/${selectTypeOfCar(type)}.png"
+     alt="sedan"
+     class="card-result-left__img"
+   />
+ </div>
+ <div class="card-result-right">
+   <h3 class="card-result-right__brand"
+     ><span>Brand:</span> ${make}</h3
+   >
+   <ul class="car-info-list">
+     <li class="car-info-list__item card-result-right__type"
+       ><span>Type:</span> ${type}</li
+     >
+     <li class="car-info-list__item card-result-right__model"
+       ><span>Model:</span> ${model}</li
+     >
+     <li class="car-info-list__item card-result-right__year"
+       ><span>Year:</span> ${year}</li
+     >
+     <li class="car-info-list__item card-result-right__year"
+       ><span>Price:</span> ~ ${generateRandomPrice()},000$</li
+     >
+   </ul>
+ </div>
+</div>`;
+  resultsContainer.insertAdjacentHTML("beforeend", carCardHTML);
 };

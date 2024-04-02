@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plan your vacation with us | Plan2Cars</title>
-    <link rel="shortcut icon" type="image/jpg" href="/img/favicon-16x16.png" />
+    <title>Plan2Cars - better solution</title>
+    <link rel="shortcut icon" type="image/jpg" href="/img/new-car.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -24,22 +24,53 @@
         <h1 class="header__title">Find your Dream Car</h1>
       </header>
       <aside class="sidebar">
+        <div class="sidebar-content">
+          <h2 class="sidebar-content__title">Plan2Cars</h2>
+          <p class="sidebar-content__text"
+            >Find your dream car by model, manufacturer, type, or even year!</p
+          >
+        </div>
+        <hr />
         <form class="form">
           <div class="form-wrapper">
-            <label for="" class="form__label">Brand</label>
-            <input type="text" class="form__input input-brand" />
+            <input
+              id="brand"
+              type="text"
+              class="form__input input-brand"
+              placeholder=" "
+              autocomplete="off"
+            />
+            <label for="brand" class="form__label">Brand</label>
           </div>
           <div class="form-wrapper">
-            <label for="" class="form__label">Model</label>
-            <input type="text" class="form__input input-model" />
+            <input
+              id="model"
+              type="text"
+              class="form__input input-model"
+              placeholder=" "
+              autocomplete="off"
+            />
+            <label for="model" class="form__label">Model</label>
           </div>
           <div class="form-wrapper">
-            <label for="" class="form__label">Year</label>
-            <input type="number" class="form__input input-year" />
+            <input
+              id="year"
+              type="number"
+              class="form__input input-year"
+              placeholder=" "
+              autocomplete="off"
+            />
+            <label for="year" class="form__label">Year</label>
           </div>
           <div class="form-wrapper">
-            <label for="" class="form__label">Type</label>
-            <input type="text" class="form__input input-type" />
+            <input
+              id="type"
+              type="text"
+              class="form__input input-type"
+              placeholder=" "
+              autocomplete="off"
+            />
+            <label for="type" class="form__label">Type</label>
           </div>
           <div class="form__buttons">
             <button class="form__submit btn">Search</button>
@@ -48,9 +79,6 @@
         </form>
       </aside>
       <section class="results">
-        <div class="error">
-          <h2>No cars found, please try again 😔</h2>
-        </div>
         <div class="card-result">
           <div class="card-result-left">
             <img
@@ -109,6 +137,15 @@
         </div>
       </section>
     </div>
+    <footer class="footer">
+      <p class="footer__text"
+        >All rights reserved &copy; <span class="footer-year"></span> By Dimi &
+        <a href="https://carrotcoding.pl" target="_blank">carrotcoding.pl</a></p
+      >
+      <p class="footer__text"
+        >A simple application created to practice my existing skills</p
+      >
+    </footer>
 
     <script src="/build/main.js"></script>
   </body>
