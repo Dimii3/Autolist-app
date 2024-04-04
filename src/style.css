@@ -12,7 +12,6 @@ html {
 
 body {
   font-family: "Roboto", sans-serif;
-  background: radial-gradient(circle at 74.2% 50.9%, rgb(20, 61, 164) 5.2%, rgb(15, 33, 74) 75.3%);
   background-image: linear-gradient(120deg, rgba(32, 64, 128, 0.9) 40%, rgba(9, 9, 121, 0.7219888639) 100%), url("/img/background-sidebar.jpg");
   display: flex;
   justify-content: center;
@@ -22,6 +21,49 @@ body {
 
 ul {
   list-style: none;
+}
+
+.loader-bg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(120deg, rgb(32, 64, 128) 40%, rgb(9, 9, 121) 100%);
+  width: 100%;
+  height: 100vh;
+  transition: opacity 0.2s;
+  z-index: 1;
+}
+.loader-bg .loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 12rem;
+  height: 12rem;
+}
+.loader-bg .loader span {
+  position: absolute;
+  font-size: 1.3rem;
+  color: #fff;
+  letter-spacing: 1px;
+}
+.loader-bg .loader::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  border: 5px solid;
+  border-color: #fff transparent #fff transparent;
+  box-shadow: inset 0px 0px 10px 4px rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: loader-rotate 2s linear infinite;
+}
+
+.loader.hidden {
+  opacity: 0;
 }
 
 .btn {
@@ -324,5 +366,10 @@ ul {
   }
   100% {
     background-color: hsl(200, 20%, 95%);
+  }
+}
+@keyframes loader-rotate {
+  to {
+    transform: rotate(-360deg);
   }
 }

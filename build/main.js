@@ -19,6 +19,7 @@ const footerYear = (document.querySelector(".footer-year").textContent =
   new Date().getFullYear());
 const resultsInfo = document.querySelector(".results-info");
 const numberResults = document.querySelector(".results-info__number");
+const loaderEl = document.querySelector(".loader-bg");
 
 const state = {
   numberOfResults: 0,
@@ -145,7 +146,7 @@ const createCardResult = (carObject) => {
  <div class="card-result-left">
    <img
      src="/img/${selectTypeOfCar(type)}.png"
-     alt="sedan"
+     alt="${selectTypeOfCar(type)}"
      class="card-result-left__img"
    />
  </div>
@@ -171,3 +172,10 @@ const createCardResult = (carObject) => {
 </div>`;
   resultsContainer.insertAdjacentHTML("beforeend", carCardHTML);
 };
+
+document.body.style.overflow = "hidden";
+window.addEventListener("DOMContentLoaded", () => {
+  loaderEl.classList.add("hidden");
+  document.body.style.overflow = "visible";
+  loaderEl.remove();
+});
