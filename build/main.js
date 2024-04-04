@@ -15,12 +15,23 @@ const inputType = document.querySelector(".input-type");
 const searchBtn = document.querySelector(".form__submit");
 const formReset = document.querySelector(".form__reset");
 
+const footerYear = (document.querySelector(".footer-year").textContent =
+  new Date().getFullYear());
+const resultsInfo = document.querySelector(".results-info");
+const numberResults = document.querySelector(".results-info__number");
+
+const state = {
+  numberOfResults: 0,
+  items: null,
+};
+
 formReset.addEventListener("click", (e) => {
   e.preventDefault();
   inputBrand.value = "";
   inputModel.value = "";
   inputYear.value = "";
   inputType.value = "";
+  resultsInfo.classList.remove("show");
   clearResults();
 });
 
@@ -52,6 +63,8 @@ const selectTypeOfCar = (carType) => {
     return "sedan";
   } else if (typeOfCar === "Pickup") {
     return "pickup-car";
+  } else {
+    return "minivan";
   }
 };
 
@@ -98,7 +111,7 @@ const findResult = () => {
 
   loadingSkeletons();
   fetch(
-    `${API_URL}limit=10&page=0&year=${searchParams.year}&make=${searchParams.make}&model=${searchParams.model}&type=${searchParams.type}`,
+    `${API_URL}limit=30&page=0&year=${searchParams.year}&make=${searchParams.make}&model=${searchParams.model}&type=${searchParams.type}`,
     options
   )
     .then((res) => {
@@ -114,7 +127,11 @@ const findResult = () => {
         handleError("No cars found, try again ⛔");
       } else {
         clearResults();
-        data.forEach((car) => createCardResult(car));
+        state.items = [...data];
+        state.numberOfResults = state.items.length;
+        numberResults.textContent = state.numberOfResults;
+        resultsInfo.classList.add("show");
+        state.items.forEach((car) => createCardResult(car));
       }
     })
     .catch((err) =>
